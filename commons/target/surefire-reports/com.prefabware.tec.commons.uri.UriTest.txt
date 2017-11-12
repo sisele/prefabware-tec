@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
-Test set: com.prefabware.tec.commons.AppTest
+Test set: com.prefabware.tec.commons.uri.UriTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec
+Tests run: 9, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.013 sec
