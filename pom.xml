@@ -10,6 +10,16 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+    <!-- use s3 url in distributionManagement to get write access with user+password -->
+    <prefabware.repo.s3.url>s3://maven.appdriver.com</prefabware.repo.s3.url>
+    <!-- use http url in repositories to get read access even if no password
+        is set in settings.xml -->
+    <prefabware.repo.http.url>https://maven.appdriver.com</prefabware.repo.http.url>
+    <maven.compile.source>1.8</maven.compile.source>
+    <maven.compile.target>1.8</maven.compile.target>
+    <maven.compile.optimize>true</maven.compile.optimize>
+    <maven.compile.deprecation>true</maven.compile.deprecation>
+    <maven.compile.warnings>true</maven.compile.warnings>
   </properties>
 
   <dependencies>
@@ -22,7 +32,142 @@
   <modules>
     <module>commons</module>
     <module>commons-spring</module>
+    <module>spring-api</module>
     <module>commons-mockito</module>
   </modules>
+
+  <repositories>
+    <repository>
+      <id>maven-s3-release-repo</id>
+      <name>S3 Release Repository</name>
+      <!-- this is used to read from the s3 repo, we use http here without password,
+          so projects created with archetypes get access -->
+      <!-- variables in the hostname were not resolved properly !! -->
+      <url>http://maven.appdriver.com/releases</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>maven-s3-snapshot-repo</id>
+      <name>S3 Snapshot Repository</name>
+      <url>http://maven.appdriver.com/snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+  <distributionManagement>
+    <repository>
+      <id>maven-s3-release-repo</id>
+      <url>${prefabware.repo.s3.url}/releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>maven-s3-snapshot-repo</id>
+      <url>${prefabware.repo.s3.url}/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
+  <build>
+    <extensions>
+      <!-- Enabling the use of amazon s3 -->
+      <extension>
+        <groupId>org.springframework.build</groupId>
+        <artifactId>aws-maven</artifactId>
+        <version>5.0.0.RELEASE</version>
+      </extension>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-webdav-jackrabbit</artifactId>
+        <version>2.2</version>
+      </extension>
+
+      <!-- Enabling the use of FTP -->
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ftp</artifactId>
+        <version>2.2</version>
+      </extension>
+
+    </extensions>
+
+    <pluginManagement>
+      <plugins>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>2.7</version>
+          <configuration>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.0-beta-3</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>2.8.1</version>
+          <configuration>
+            <attach>true</attach>
+          </configuration>
+          <executions>
+            <execution>
+              <id>attach-javadoc</id>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+
+    <plugins>
+
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <encoding>UTF-8</encoding>
+          <source>${maven.compile.source}</source>
+          <target>${maven.compile.target}</target>
+          <optimize>${maven.compile.optimize}</optimize>
+          <showDeprecation>${maven.compile.deprecation}</showDeprecation>
+          <showWarnings>${maven.compile.warnings}</showWarnings>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <configuration>
+          <!--standard resource file encoding is utf-8 -->
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <version>1.0-beta-2</version>
+      </plugin>
+
+    </plugins>
+  </build>
+
 
 </project>

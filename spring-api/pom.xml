@@ -8,10 +8,8 @@
         <artifactId>parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>commons-spring</artifactId>
+    <artifactId>spring-api</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <name>commons-spring</name>
-    <url>http://maven.apache.org</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -19,6 +17,11 @@
         <dependency>
             <groupId>com.prefabware.tec</groupId>
             <artifactId>commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.prefabware.tec</groupId>
+            <artifactId>commons-spring</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -30,8 +33,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <version>1.5.7.RELEASE</version>
-            <scope>test</scope>
         </dependency>
-
     </dependencies>
 </project>

@@ -18,7 +18,7 @@ import org.springframework.util.Assert;
 public abstract class CharSequenceBase implements CharSequence,Comparable<CharSequenceBase>,Serializable{
 	private static final long serialVersionUID = 1L;
 
-	protected final String delegate;
+	protected final String value;
 
 	public static boolean isNullOrEmpty(CharSequence sequence){
 		return sequence==null||sequence.length()==0||sequence.toString().isEmpty();
@@ -40,32 +40,32 @@ public abstract class CharSequenceBase implements CharSequence,Comparable<CharSe
 	}
 
 	//@JsonCreator
-	public CharSequenceBase(CharSequence delegate) {
+	public CharSequenceBase(CharSequence value) {
 		super();
-		Assert.notNull(delegate,"the delegate must not be null");
-		this.delegate = delegate.toString();
+		Assert.notNull(value,"the value must not be null");
+		this.value = value.toString();
 	}
 
 	@Override
 	public int length() {
-		return delegate.length();
+		return value.length();
 	}
 
 	@Override
 	public char charAt(int index) {
-		return delegate.charAt(index);
+		return value.charAt(index);
 	}
 
 
 	@Override
 	public CharSequence subSequence(int start, int end) {
-		return delegate.subSequence(start, end);
+		return value.subSequence(start, end);
 	}
 
 	//@JsonValue
 	@Override
 	public String toString() {
-		return delegate;
+		return value;
 	}
 
 	@Override
@@ -77,20 +77,20 @@ public abstract class CharSequenceBase implements CharSequence,Comparable<CharSe
 
 		CharSequenceBase that = (CharSequenceBase) o;
 
-		return delegate.equals(that.delegate);
+		return value.equals(that.value);
 
 	}
 
 	@Override
 	public int hashCode() {
-		return delegate.hashCode();
+		return value.hashCode();
 	}
 
 	@Override
 	public int compareTo(CharSequenceBase o) {
 		if(o==null){
-			return delegate.compareTo(null);
+			return value.compareTo(null);
 		}
-		return delegate.compareTo(o.toString());
+		return value.compareTo(o.toString());
 	}
 }

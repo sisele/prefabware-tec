@@ -2,9 +2,9 @@ package com.prefabware.tec.commons.exception;
 
 import java.util.concurrent.Callable;
 
+import com.prefabware.tec.commons.export.CustomAssert;
 import org.junit.*;
 
-import static com.prefabware.tec.commons.exception.Assert.fail;
 import static org.junit.Assert.*;
 
 /**
@@ -23,11 +23,8 @@ public class CatchTest {
 	@Test
 	public void testThrowing() throws Exception {
 
-		try {
-			Catch.execute(throwingNullPointer,null);
-			fail("exception expected");
-		}catch (NullPointerException e){
-		}
+		CustomAssert.assertThrows(()->Catch.execute(throwingNullPointer,null),NullPointerException.class);
+
 	}
 	@Test
 	public void testCatching() throws Exception {
